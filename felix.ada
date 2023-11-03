@@ -655,7 +655,8 @@ procedure Felix is
 	 Put_Line("Execution error at address " & half'image(pc-4) & " : " & M);
 	 return ;
       end Error;
-	   
+      
+      Format: String(1..2);
       
    begin
       Inb := M(Pc..Pc+3);
@@ -670,7 +671,21 @@ procedure Felix is
       
       case Byopcod(Ins.Op) is
 	 when Print => -- this should be a case..
-	    Put(Character'Val(Rw(Half(Ins.Q)) and 16#0ff#));
+	    Format(1) := Character'Val(Natural(Ins.D/256));
+	    Format(2) := Character'Val(Natural(Ins.D mod 256));
+	    if Ins.D=0  then
+	       Put(Character'Val(Rw(Half(Ins.Q)) and 16#0ff#));
+	    elsif Ins.D<255 and then Format(2)='d' then
+	       Put("R" & Qfld'Image(Ins.Q) & "=" & Words_Register'Image(Rw(Half(Ins.Q))));
+	    else
+	       if Format(1)<' ' or Format(1)>'~'then
+	       Format(1) := '?';
+	      end if;
+	      if Format(2)<' ' or Format(2)>'~' then
+	       Format(2) := '?';
+	      end if;
+	      Put(Format);
+	    end if;
 	 when Ld1i =>
 	    Rb(Half(Ins.Q))(0) := Byte(Half(Ins.D) mod 256);
 	 when Ld2i =>
@@ -693,7 +708,7 @@ procedure Felix is
 	    M(A) := Rb(Half(Ins.Q))(2);
 	    M(A+1) := Rb(Half(Ins.Q))(3);
 	 when Ad4i =>
-	    Rw(Half(Ins.Q)) := Words_Register(Word(Half(Ins.Q)) + Word(Ins.D));
+	    Rw(Half(Ins.Q)) := Words_Register(Word(Rw(Half(Ins.Q))) + Word(Ins.D));
 	 when Sb4i =>
 	    Rw(Half(Ins.Q)) := Rw(Half(Ins.Q)) - Words_Register(Ins.D);
 	 when Ad4 =>
