@@ -87,6 +87,9 @@ procedure Felix is
    Rb: array(Register) of Bytes_Register;
    for Rb'Address use M'Address;
    
+   Ri: array(Register) of Integer;
+   for Ri'Address use M'Address;
+   
    Rf: array(Register) of Float;
    for Rf'Address use M'Address;
    
@@ -109,6 +112,52 @@ procedure Felix is
    
    Asm: Half:= 64; -- after the registers..
    
+   
+   -- some utilities
+   
+      
+   Ai: constant Integer:= Character'Pos('a');
+   Amai: constant Integer:= Character'Pos('A');
+   Zeroi: constant Integer:= Character'Pos('0');
+   
+
+      function To_Hex_Digit(X: Natural) return Character is
+	 
+      begin
+	 if X<10 then
+	    return Character'Val(X + Zeroi);
+	 else
+	    return Character'Val(X - 10 + Amai);
+	 end if;
+      end To_Hex_Digit;
+      
+      function To_Hex_Half(X: Half) return String is
+	 
+	 Rv: String(1..4);
+	 
+      begin
+	 Rv(1) := To_Hex_Digit(Natural(X / 2**12));
+	 Rv(2) := To_Hex_Digit(Natural((X / 2**8) mod 2**4));
+	 Rv(3) := To_Hex_Digit(Natural((X / 2**4) mod 2**4));
+	 Rv(4) := To_Hex_Digit(Natural(X mod 2**4));
+	 return Rv;
+      end To_Hex_Half;
+   
+      function To_Upper(X: String) return String is
+	 
+	 Rv: String(1..X'Length);
+	 
+      begin
+	 for I in X'Range loop
+	    if X(I) <= 'z' and X(I) >= 'a' then
+	       Rv(I-X'First+1) := Character'Val(Character'Pos(X(I)) + Amai - Ai);
+	    else
+	       Rv(I-X'First+1) := X(I);
+	    end if;
+	 end loop;
+	 return Rv;
+      end To_Upper;
+   
    -- THE CARD READER (reads from standard_input).
    
    subtype Card is String(1..80); -- a line
@@ -118,10 +167,6 @@ procedure Felix is
    No_More_Cards: Boolean:= False;
    
    Cardno: Natural:= 0;
-   
-   Ai: constant Integer:= Character'Pos('a');
-   Amai: constant Integer:= Character'Pos('A');
-   Zeroi: constant Integer:= Character'Pos('0');
    
    procedure Read_Next_Card is
       
@@ -306,27 +351,6 @@ procedure Felix is
       Sasm: String(1..18) := ( others => ' ');
       Sd: String := Half'Image(Ins.D);
       
-      function To_Hex_Digit(X: Natural) return Character is
-	 
-      begin
-	 if X<10 then
-	    return Character'Val(X + Zeroi);
-	 else
-	    return Character'Val(X - 10 + Amai);
-	 end if;
-      end To_Hex_Digit;
-      
-      function To_Hex_Half(X: Half) return String is
-	 
-	 Rv: String(1..4);
-	 
-      begin
-	 Rv(1) := To_Hex_Digit(Natural(X / 2**12));
-	 Rv(2) := To_Hex_Digit(Natural((X / 2**8) mod 2**4));
-	 Rv(3) := To_Hex_Digit(Natural((X / 2**4) mod 2**4));
-	 Rv(4) := To_Hex_Digit(Natural(X mod 2**4));
-	 return Rv;
-      end To_Hex_Half;
       
    begin
       Snr(Snr'Last-Nr'Length+1..Snr'Last) := Nr;
@@ -395,51 +419,38 @@ procedure Felix is
    -- THE ASSEMBLER
    
    
---   Ad4: constant Opcod := 16#1E#;
---   Ad4i: constant Opcod := 16#27#;
---   Adh2: constant Opcod := 16#1D#;
---   Adl2: constant Opcod := 16#1C#;
---   Bal: constant Opcod := 16#39#;
---   Bcf: constant Opcod := 16#34#;
---   Bct: constant Opcod := 16#35#;
---   Bdf: constant Opcod := 16#36#;
---   Bdt: constant Opcod := 16#37#;
---   Bru: constant Opcod := 16#38#;
---   Cp1: constant Opcod := 16#10#;
---   Cp1i: constant Opcod := 16#24#;
---   Cp2: constant Opcod := 16#11#;
---   Cp4: constant Opcod := 16#12#;
---   Dv2: constant Opcod := 16#32#;
---   Dv4: constant Opcod := 16#68#;
---   Ic2: constant Opcod := 16#46#;
---   Ic4: constant Opcod := 16#47#;
---   Ld1: constant Opcod := 16#18#;
---   Ld1i: constant Opcod := 16#28#;
---   Ld2i: constant Opcod := 16#29#;
---   Ldh2: constant Opcod := 16#08#;
---   Ldl2: constant Opcod := 16#09#;
---   Ld4: constant Opcod := 16#0A#;
---   Mp2: constant Opcod := 16#30#;
---   Mp4: constant Opcod := 16#69#;
---   Sb4: constant Opcod := 16#16#;
---   Sb4i: constant Opcod := 16#26#;
---   Sh2: constant Opcod := 16#20#;
---   Sh4: constant Opcod := 16#21#;
---   St1: constant Opcod := 16#58#;
---   St4: constant Opcod := 16#5A#;
---   Sth2: constant Opcod := 16#59#;
---   Stpa: constant Opcod := 16#5C#;
---   
---   Rd_Inst: constant Opcod := 16#50#;
---   Wd: constant Opcod := 16#51#;
---   
---
    
-   Type Ops is (Ad4, Ad4i, Adh2, Adl2, Bal, Bcf, Bct, Bdf, Bdt, Bru, Cp1, Cp1i, Cp2, Cp4, Dv2, Dv4,
-		  Ic2, Ic4, Ld1, Ld1i, Ld2i, Ldh2, Ldl2, Ld4, Mp2, Mp4, Sb4, Sb4i, Sh2, Sh4, St1,
-		  St4, Sth2, Stpa, Rd, Wd, Print, Halt);
+   Type Ops is (Ad4, Ad4i, 
+		AD8, ADD, ADF8, ADF4, 
+		Adh2, Adl2, 
+		AIO, ANALD, ANALN,
+		Bal, Bcf, Bct, Bdf, Bdt, Bru, Cp1, Cp1i, Cp2, Cp4, 
+		CP8, CPD, CPSL, CPSR, CYBL, CYBR,
+		Dv2, Dv4,
+		DVD, DVF8, DVF4, DVU2, EO2, EO4, EX2, EX4, EXU, HIO,
+		Ic2, Ic4, 
+		LAS,
+		Ld1, Ld1i, Ld2i, Ldh2, Ldl2, Ld4, 
+		LD4I, LD8, LDC, LDC2, LDC4, LDC8, LDDA, LDM, LDS2, LDTM, LPK, LPS, 
+		Mp2, Mp4, 
+		MG2, MG4, MPD, MPF4, MPF8, MPU2, MVSR, MVSL,
+		NF4, PACK, 
+		Rd, 
+		Sb4, Sb4i,
+		SB8, SBD, SBF4, SBF8, SBH2,
+		Sh2, Sh4, 
+		SH8, SHD, SIO,
+		St1, St4, Sth2, Stpa, 
+		ST8, STC, STM, STS2, STTM,
+		TDV, TIO, TRTL, TRTR, UNPK,
+		Wd, 
+		WT, ZAD,
+		
+		Print, Halt,
+		
+	       UNASSIGNED);
    
-   Byopcod: array(Opcod) of Ops;
+   Byopcod: array(Opcod) of Ops := (others => UNASSIGNED);
    
    Byops: array(Ops) of Opcod := (others => 0); -- impossible opcode
    
@@ -447,16 +458,27 @@ procedure Felix is
       
    begin
       Byopcod(Cod) := Op;
-      Byops(Op) := Cod;
+      if Byops(Op) /= 0 then
+	 Put_Line("Standard_Error: Code already exists: " & To_Hex_Half(Half(Cod)));
+      else
+	 Byops(Op) := Cod;
+      end if;
    end Setops;
    
    procedure Set_All_Ops is
       
    begin
-     Setops(Ad4, 16#1E#);
-     Setops(Ad4i, 16#27#);
+    Setops(Ad4, 16#1E#);
+    Setops(Ad4i, 16#27#);
+     Setops(AD8, 16#1F#);
+     Setops(ADD, 16#61#);
+     Setops(ADF8, 16#7C#);
+     Setops(ADF4, 16#6C#);
      Setops(Adh2, 16#1D#);
      Setops(Adl2, 16#1C#);
+    Setops(AIO, 16#56#);
+    Setops(ANALD, 16#3D#);
+    Setops(ANALN, 16#3C#);
      Setops(Bal, 16#39#);
      Setops(Bcf, 16#34#);
      Setops(Bct, 16#35#);
@@ -467,8 +489,24 @@ procedure Felix is
      Setops(Cp1i, 16#24#);
      Setops(Cp2, 16#11#);
      Setops(Cp4, 16#12#);
+    Setops(CP8, 16#13#);
+    Setops(CPD, 16#63#);
+    Setops(CPSL, 16#4C#);
+    Setops(CPSR, 16#4D#);
+    Setops(CYBL, 16#4A#);
+    Setops(CYBR, 16#4B#);
      Setops(Dv2, 16#32#);
      Setops(Dv4, 16#68#);
+    Setops(DVD, 16#65#);
+    Setops(DVF8, 16#7F#);
+    Setops(DVF4, 16#6F#);
+    Setops(DVU2, 16#33#);
+    Setops(EO2, 16#0D#);
+    Setops(EO4, 16#0E#);
+    Setops(EX2, 16#01#);
+    Setops(EX4, 16#02#);
+    Setops(EXU, 16#3A#);
+    Setops(HIO, 16#53#);
      Setops(Ic2, 16#46#);
      Setops(Ic4, 16#47#);
      Setops(Ld1, 16#18#);
@@ -477,23 +515,140 @@ procedure Felix is
      Setops(Ldh2, 16#08#);
      Setops(Ldl2, 16#09#);
      Setops(Ld4, 16#0A#);
+    Setops(LD4I, 16#2A#);
+    Setops(LD8, 16#0B#);
+    Setops(LDC, 16#43#);
+    Setops(LDC2, 16#19#);
+    Setops(LDC4, 16#1A#);
+    Setops(LDC8, 16#18#);
+    Setops(LDDA, 16#2B#);
+    Setops(LDM, 16#2C#);
+    Setops(LDS2, 16#45#);
+    Setops(LDTM, 16#41#);
+    Setops(LPK, 16#5D#);
+    Setops(LPS, 16#5E#);
      Setops(Mp2, 16#30#);
      Setops(Mp4, 16#69#);
+    Setops(MG2, 16#05#);
+    Setops(MG4, 16#06#);
+    Setops(MPD, 16#64#);
+    Setops(MPF4, 16#6E#);
+    Setops(MPF8, 16#7E#);
+    Setops(MPU2, 16#31#);
+    Setops(MVSR, 16#49#);
+    Setops(MVSL, 16#48#);
+    Setops(NF4, 16#22#);
+    Setops(PACK, 16#66#);
      Setops(Sb4, 16#16#);
      Setops(Sb4i, 16#26#);
+    Setops(SB8, 16#17#);
+    Setops(SBD, 16#62#);
+    Setops(SBF4, 16#6D#);
+    Setops(SBF8, 16#6F#);
+    Setops(SBH2, 16#15#);
      Setops(Sh2, 16#20#);
      Setops(Sh4, 16#21#);
+    Setops(SH8, 16#6B#);
+    Setops(SHD, 16#5F#);
+       Setops(SIO, 16#52#);
      Setops(St1, 16#58#);
      Setops(St4, 16#5A#);
      Setops(Sth2, 16#59#);
      Setops(Stpa, 16#5C#); 
+    Setops(ST8, 16#5B#);
+    Setops(STC, 16#42#);
+    Setops(STM, 16#2D#);
+    Setops(STS2, 16#44#);
+    Setops(STTM, 16#40#);
+    Setops(TDV, 16#55#);
+    Setops(TIO, 16#54#);
+    Setops(TRTL, 16#4E#);
+    Setops(TRTR, 16#4F#);
+    Setops(UNPK, 16#67#);
      Setops(Rd, 16#50#);
      Setops(Wd, 16#51#);
+    Setops(WT, 16#57#);
+    Setops(ZAD, 16#60#);
+    
+--    Put_Line(Standard_Error, "Unassigned opcodes: ");
+--    for Op in Opcod loop
+--       if Byopcod(Op)=Unassigned then
+--	  Put(To_Hex_Half(Half(Op)) & ", ");
+--       end if;
+--    end loop;
+    
+    --    Unused codes:
+    
+    --    0000, 
+    --    0003, 0004, 0007, 000C, 000F, 
+    --    0014, 001B, 0023, 0025, 002E, 
+    --    002F, 003B, 003E, 003F, 006A, 
+    --    0070, 0071, 0072, 0073, 0074, 
+    --    0075, 0076, 0077, 0078, 0079, 
+    --    007A, 007B, 007D
+    
+    
    -- codes 70..77 are unused, we use them for our special instructions
      Setops(Print,16#70#);
      Setops(Halt,16#77#);
    end Set_All_Ops;
    
+   Labelmax: constant Natural := 8;
+   Symbol_Table_Max: constant Natural := 10_000;
+   Symbol_Not_Found: constant Natural := Symbol_Table_Max + 1;
+   subtype Label_String is String(1..Labelmax);
+   
+   type Symbol_Table_Entry is record
+      Label: Label_String;
+      Value: Word;
+   end record;
+   
+   subtype St_Cursor is Natural range 1..Symbol_Table_Max;
+
+   St: array(St_Cursor) of Symbol_Table_Entry;
+   St_Next: St_Cursor:= 1;
+   
+   function String_To_Label(Ll: String) return Label_String is
+     
+     Ls: Label_String := (others => ' ');
+     L: String:= To_Upper(Ll);
+
+   begin 
+      if L'Length > Labelmax then
+	 Ls(1..Labelmax) := L(L'First..L'First+Labelmax-1);
+      else
+	 Ls(1..L'Length) := "" & L;
+      end if;
+      return Ls;
+   end String_To_Label;
+   
+   function Find_In_Table(L: string) return Natural is
+     -- return cursor in table where the label is or
+     -- symbol_table_max+1 if not found
+      Ls: Label_String:= String_To_Label(L);
+   begin
+      for K in 1..St_Next-1 loop
+	 if Ls=St(K).Label then
+	    return K;
+	 end if;
+      end loop;
+      return Symbol_Not_Found;
+   end Find_In_Table;
+   
+   procedure Add_To_Table(L: String; V: Word) is
+      
+      Ls: Label_String := String_To_Label(L);
+      Ni: Natural:= Find_In_Table(L);
+      
+   begin
+      if Ni=Symbol_Not_Found then
+	 St(St_Next).Label := Ls;
+	 St(St_Next).Value := V;
+	 St_Next := St_Next+1;
+      else
+	 St(Ni).Value := V; -- we just replace the value, but this should be reported
+      end if;
+   end Add_To_Table;
    
    procedure Asminc(Op: Opcod; Q: Qfld; D: Half) is
       
@@ -527,20 +682,6 @@ procedure Felix is
       -- card that has just been read and parsed, found in incard
       -- and parsed in mnemo & folks
       
-      function To_Upper(X: String) return String is
-	 
-	 Rv: String(1..X'Length);
-	 
-      begin
-	 for I in X'Range loop
-	    if X(I) <= 'z' and X(I) >= 'a' then
-	       Rv(I-X'First+1) := Character'Val(Character'Pos(X(I)) + Amai - Ai);
-	    else
-	       Rv(I-X'First+1) := X(I);
-	    end if;
-	 end loop;
-	 return Rv;
-      end To_Upper;
       
       -- the following will treat all expressions
       -- that are expected to be integers
@@ -586,11 +727,19 @@ procedure Felix is
 	    end if;
 	 end Is_Hexlit;
 	 
+	 function Is_Label(X: String) return Boolean is
+	    
+	 begin
+	    return Find_In_Table(X) /= Symbol_Not_Found;
+	 end Is_Label;
+	 
 	 Rv: Half:= 0;
 	 
       begin
 	 if Is_Declit(X) then
 	    return Half'Value(X);
+	 elsif Is_Label(X) then
+	    return Half(St(Find_In_Table(X)).Value);
 	 elsif Is_Charlit(X) then
 	    for K in X'First+2..X'Last-1 loop
 	       Rv := Rv * 256 + Character'Pos(X(K));
@@ -622,6 +771,14 @@ procedure Felix is
       end Half_Arg;
       
    begin
+      if Label(0) > 0 then
+	 if Mnemo(0) > 0 and then "" & Incard(Mnemo(0)..Mnemo(1)) = "EQU" then
+	    Add_To_Table(Incard(Label(0)..Label(1)), Word(Half_Arg)); -- but must check for the sign!
+	    return;
+	 else
+	    Add_To_Table(Incard(Label(0)..Label(1)), Word(Asm));
+	 end if;
+      end if;
       if Mnemo(0) > 0 then
 	 if R(0) > 0 then
 	    Assemble_Ins( Opid => Incard(Mnemo(0)..Mnemo(1)),
@@ -676,7 +833,7 @@ procedure Felix is
 	    if Ins.D=0  then
 	       Put(Character'Val(Rw(Half(Ins.Q)) and 16#0ff#));
 	    elsif Ins.D<255 and then Format(2)='d' then
-	       Put("R" & Qfld'Image(Ins.Q) & "=" & Words_Register'Image(Rw(Half(Ins.Q))));
+	       Put(Integer'Image(Ri(Half(Ins.Q))));
 	    else
 	       if Format(1)<' ' or Format(1)>'~'then
 	       Format(1) := '?';

@@ -1,0 +1,9 @@
+UNU     EQU      C'u'
+LF      EQU      10
+BEGIN   LD1I,3   UNU
+PEURMA  LD1I,4   LF
+        LD1I,5   PEURMA
+        PRINT,3
+        PRINT,4
+        PRINT,5  C'd'
+        HALT
