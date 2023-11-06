@@ -1,5 +1,5 @@
 # felix
-Approximate emulator for a subset of Felix-C-256 computer jobs with Assiris assembler.
+Approximate emulator of Felix-C-256 computer jobs with Assiris assembler.
 
 The Felix-C-256 computer was a mainframe computer produced in Romania in the 1970ies (https://ro.wikipedia.org/wiki/Felix_C).
 It was more or less a copy of the IRIS-50/IRIS-80 computers produced in France by CII. It was produced by the 'Fabrica
