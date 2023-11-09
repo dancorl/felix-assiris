@@ -1,5 +1,5 @@
-# felix
-Approximate emulator of Felix-C-256 computer jobs with an Assiris assembler.
+# FELIX-ASSIRIS
+# Approximate emulator of Felix-C-256 computer jobs with an Assiris assembler.
 
 ## The Felix-C-256
 
