@@ -19,7 +19,7 @@ are different as are the codes that correspond to the same actual instruction.
 
 Otherwise, the addressing modes, the organisation of the memory and memory management seem to be the same.
 
-The Felix was the only computer available in Romania in the seventies and early eighties. Romania was socialist
+The Felix was the only computer available in Romania in the seventies and early eighties. Romania was a socialist
 country from the Warsaw treaty and there were no private enterprises. The Felixes were to be found in state enterprises and
 institutions, including 'county computation centers' and could not be purchesed independently. Their unreability
 was legendary. However, they allowed the introduction of computer programming and education curricula relying
