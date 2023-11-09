@@ -1,5 +1,7 @@
 # felix
-Approximate emulator of Felix-C-256 computer jobs with Assiris assembler.
+Approximate emulator of Felix-C-256 computer jobs with an Assiris assembler.
+
+## The Felix-C-256
 
 The Felix-C-256 computer was a mainframe computer produced in Romania in the 1970ies (https://ro.wikipedia.org/wiki/Felix_C).
 It was more or less a copy of the IRIS-50/IRIS-80 computers produced in France by CII. It was produced by the 'Fabrica
@@ -50,6 +52,8 @@ either.
 One book tries to provide a comprehensive and detailed overview, although
 the information does not ammount to a reference manual.
 (FELIX C 256--Structura si programarea calculatorului, Vasile Baltac et al, 1974).
+
+## The Felix simulator
 
 Based on this book, we try to implement a simulator, not of the Felix (in the SIMH style), but
 of one single threaded Felix job that must consist of a restriction to the most commonly used instructions and of the ASSIRIS assembler, 
