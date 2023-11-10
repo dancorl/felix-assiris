@@ -1,0 +1,20 @@
+. JOB BOGOMIPS
+. COMPILE ASSIRIS
+
+         CSECT
+TESTDEC  LD4I,3 25000
+	 LD1I,4 10
+DLOOP    LD4I,5 1000
+*        PRINT,3 C'd'
+ILOOP    SB4I,5 1
+         BCF,8 ILOOP
+         SB4I,3 1
+         BCF,8 DLOOP
+	 PRINT,3 C'..'
+         PRINT,3 C'GA'
+         PRINT,3 C'TA'
+	 HALT
+         END TESTDEC
+. RUN KINS:120000
+. EOJ
+  

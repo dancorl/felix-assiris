@@ -1,0 +1,25 @@
+. JOB HELLOWRL
+. COMPILE ASSIRIS
+
+         CSECT
+STR      DS 'Hello World'
+         DB 10,0
+         ALIGN
+HELLOW   LD4I,9 STR
+DLOOP	 LD1,4 *9,0
+	 CP1I,4 0
+	 BCT,8 NOPRINT
+         PRINT,4
+NOPRINT	 AD4I,9 1
+	 CP1I,4 0
+         BCF,8 DLOOP
+	 PRINT,3 C'..'
+         PRINT,3 C'GA'
+         PRINT,3 C'TA'
+	 HALT
+         END HELLOW
+. LINK
+. RUN 
+. LIST MSG:'salut','SYMS','LINKS','DUMP'
+. EOJ
+  
