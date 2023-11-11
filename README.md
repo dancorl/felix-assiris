@@ -93,49 +93,36 @@ The help is reproduced below:
     GENERALITIES 
 
     This version only has 64K of memory and only knows some of the instructions:
-
     AD4I BRU BCF BCT BAL CP1I CP1 CP2 CP4 EO2 EO4 EX2 EX4 LDC2 LDC4 LD1I LD2I LD1
-
     LDL2 LDH2 LD4 LDM LD4I MG2 MG4 ST1 ST4 STH2 STM SB4I SB4
-
     to which we added a couple more (see below): PRINT HALT
 
-Only the direct and indirect addressing modes are implemented in this version.
+    Only the direct and indirect addressing modes are implemented in this version.
 
-The indirect addressing mode works for exactly one indirection.
+    The indirect addressing mode works for exactly one indirection.
 
 
-CONTROL CARDS 
+    CONTROL CARDS 
 
-The following cards (LIST and CONF) can appear anywhere in the input stream:
+    The following cards (LIST and CONF) can appear anywhere in the input stream:
 
-. LIST opt{,opt}* where opt can be:
+    . LIST opt{,opt}* where opt can be:
 
-       'HELP'     -- include this help text in the listing
-       
-       'ABOUT'    -- introduction to the FELIX/ASSIRIS system
+         'HELP'     -- include this help text in the listing      
+         'ABOUT'    -- introduction to the FELIX/ASSIRIS system
+         'SYMS'     -- the symbols table
+         'LINKS'    -- the linkings performed by the link editor up to that point
+         'DUMP'     -- `VIDAGE MEMOIRE' at that point
+          MSG:'x'    -- display the message at that point
 
-       'SYMS'     -- the symbols table
+    . CONF opt{,opt}* -- currently is ignored.
 
-       'LINKS'    -- the linkings performed by the link editor up to that point
-
-       'DUMP'     -- `VIDAGE MEMOIRE' at that point
-
-        MSG:'x'    -- display the message at that point
-
-. CONF opt{,opt}* -- currently is ignored.
-
-The following cards can only appear in a specifc sequence.
-
-The sequence is: JOB, COMPILE, LINK, RUN, EOJ; then, you may repeat.
-
-COMPILE must be follwed by ASSIRIS (. COMPILE ASSIRIS)
-
-RUN will admit one option, KINS:n where n is the number of thousands of
-
-  instructions to run. Without it, the simulator only runs 500 instructions
-
-  then stops (as was necessary in early tests).
+    The following cards can only appear in a specifc sequence.
+    The sequence is: JOB, COMPILE, LINK, RUN, EOJ; then, you may repeat.
+    COMPILE must be follwed by ASSIRIS (. COMPILE ASSIRIS)
+    RUN will admit one option, KINS:n where n is the number of thousands of
+    instructions to run. Without it, the simulator only runs 500 instructions
+    then stops (as was necessary in early tests).
 
 Otherwise, you may add any options to the cards, but they are currently ignored.
 
