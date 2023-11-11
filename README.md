@@ -90,15 +90,15 @@ For more, you should really 'use the force' (read the source).
 The help is reproduced below:
 
 
-GENERALITIES 
+    GENERALITIES 
 
-This version only has 64K of memory and only knows some of the instructions:
+    This version only has 64K of memory and only knows some of the instructions:
 
-AD4I BRU BCF BCT BAL CP1I CP1 CP2 CP4 EO2 EO4 EX2 EX4 LDC2 LDC4 LD1I LD2I LD1
+    AD4I BRU BCF BCT BAL CP1I CP1 CP2 CP4 EO2 EO4 EX2 EX4 LDC2 LDC4 LD1I LD2I LD1
 
-LDL2 LDH2 LD4 LDM LD4I MG2 MG4 ST1 ST4 STH2 STM SB4I SB4
+    LDL2 LDH2 LD4 LDM LD4I MG2 MG4 ST1 ST4 STH2 STM SB4I SB4
 
-to which we added a couple more (see below): PRINT HALT
+    to which we added a couple more (see below): PRINT HALT
 
 Only the direct and indirect addressing modes are implemented in this version.
 
