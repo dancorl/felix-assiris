@@ -124,47 +124,40 @@ The help is reproduced below:
     instructions to run. Without it, the simulator only runs 500 instructions
     then stops (as was necessary in early tests).
 
-Otherwise, you may add any options to the cards, but they are currently ignored.
+    Otherwise, you may add any options to the cards, but they are currently ignored.
+    
+    
+    DIRECTIVES
+
+    Directives are cards that can occur only between '. COMPILE ASSIRIS' and 'END'
+    The directives: ORG, EQU, DS, DB, ALIGN, work as expected. EQU defines a symbol.
+    ORG changes the address (that must be its argument) where the assembler generates code
+    DS is followed by a '-delimited string, the ASCII characters of which it puts into memory
+    in succesive locations
+
+    DB is followed by a sequence of byte-sized numbers (0..255), comma separated, that ar put into memory in sequence.
+    the number can be: [-]ddd, decimal numbers; X'xx' hexadecimal, C'c' characters.
+
+    ALIGN is essential. Before assemblying machine code, the assembly address must be aligned to 4 bytes.
+    After DSs and DBs, always use ALIGN to synchronise the address to a 4-byte alignment, if code follows.
+    ALIGN take an optional argument about at what pace to align, in bytes. The default is 4.
+
+    END X must include this X which is the address, usually a label, where RUN will start execution.
+
+    CSECT is ignored.
+
+    Label expressions are not implemented, you can't say 'BRU ADDR+8' or something
 
 
-DIRECTIVES
+    NEW INSTRUCTIONS
 
-Directives are cards that can occur only between '. COMPILE ASSIRIS' and 'END'
+    HALT will finish running
 
-The directives: ORG, EQU, DS, DB, ALIGN, work as expected. EQU defines a symbol.
+    PRINT,r will print the LSB of register r as an ascii character on stdout
 
-ORG changes the address (that must be its argument) where the assembler generates code
+    PRINT,r C'd' will print the register r as a decimal on stdout
 
-DS is followed by a '-delimited string, the ASCII characters of which it puts into memory
-
-  in succesive locations
-
-DB is followed by a sequence of byte-sized numbers (0..255), comma separated, that ar put into memory in sequence.
-
-  the number can be: [-]ddd, decimal numbers; X'xx' hexadecimal, C'c' characters.
-
-ALIGN is essential. Before assemblying machine code, the assembly address must be aligned to 4 bytes.
-
-  After DSs and DBs, always use ALIGN to synchronise the address to a 4-byte alignment, if code follows.
-
-  ALIGN take an optional argument about at what pace to align, in bytes. The default is 4.
-
-END X must include this X which is the address, usually a label, where RUN will start execution.
-
-CSECT is ignored.
-
-Label expressions are not implemented, you can't say 'BRU ADDR+8' or something
-
-
-NEW INSTRUCTIONS
-
-HALT will finish running
-
-PRINT,r will print the LSB of register r as an ascii character on stdout
-
-PRINT,r C'd' will print the register r as a decimal on stdout
-
-PRINT,r C'xy' will print the two ASCII characters x and y on stdout
+    PRINT,r C'xy' will print the two ASCII characters x and y on stdout
 
 
 
