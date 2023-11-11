@@ -89,68 +89,94 @@ For more, you should really 'use the force' (read the source).
 
 The help is reproduced below:
 
-****************************************************
-*** *** FELIX/ASSIRIS VIRTUAL PROCESSOR HELP *** ***
-****************************************************
 
-================
-= GENERALITIES =
-================
+GENERALITIES 
 
 This version only has 64K of memory and only knows some of the instructions:
+
 AD4I BRU BCF BCT BAL CP1I CP1 CP2 CP4 EO2 EO4 EX2 EX4 LDC2 LDC4 LD1I LD2I LD1
+
 LDL2 LDH2 LD4 LDM LD4I MG2 MG4 ST1 ST4 STH2 STM SB4I SB4
+
 to which we added a couple more (see below): PRINT HALT
+
 Only the direct and indirect addressing modes are implemented in this version.
+
 The indirect addressing mode works for exactly one indirection.
 
-=================
-= CONTROL CARDS =
-=================
+
+CONTROL CARDS 
 
 The following cards (LIST and CONF) can appear anywhere in the input stream:
+
 . LIST opt{,opt}* where opt can be:
+
        'HELP'     -- include this help text in the listing
+       
        'ABOUT'    -- introduction to the FELIX/ASSIRIS system
+
        'SYMS'     -- the symbols table
+
        'LINKS'    -- the linkings performed by the link editor up to that point
+
        'DUMP'     -- `VIDAGE MEMOIRE' at that point
+
         MSG:'x'    -- display the message at that point
+
 . CONF opt{,opt}* -- currently is ignored.
 
 The following cards can only appear in a specifc sequence.
+
 The sequence is: JOB, COMPILE, LINK, RUN, EOJ; then, you may repeat.
+
 COMPILE must be follwed by ASSIRIS (. COMPILE ASSIRIS)
+
 RUN will admit one option, KINS:n where n is the number of thousands of
+
   instructions to run. Without it, the simulator only runs 500 instructions
+
   then stops (as was necessary in early tests).
+
 Otherwise, you may add any options to the cards, but they are currently ignored.
 
-==============
-= DIRECTIVES =
-==============
+
+DIRECTIVES
 
 Directives are cards that can occur only between '. COMPILE ASSIRIS' and 'END'
+
 The directives: ORG, EQU, DS, DB, ALIGN, work as expected. EQU defines a symbol.
+
 ORG changes the address (that must be its argument) where the assembler generates code
+
 DS is followed by a '-delimited string, the ASCII characters of which it puts into memory
+
   in succesive locations
+
 DB is followed by a sequence of byte-sized numbers (0..255), comma separated, that ar put into memory in sequence.
+
   the number can be: [-]ddd, decimal numbers; X'xx' hexadecimal, C'c' characters.
+
 ALIGN is essential. Before assemblying machine code, the assembly address must be aligned to 4 bytes.
+
   After DSs and DBs, always use ALIGN to synchronise the address to a 4-byte alignment, if code follows.
+
   ALIGN take an optional argument about at what pace to align, in bytes. The default is 4.
+
 END X must include this X which is the address, usually a label, where RUN will start execution.
+
 CSECT is ignored.
+
 Label expressions are not implemented, you can't say 'BRU ADDR+8' or something
 
-====================
-= NEW INSTRUCTIONS =
-====================
+
+NEW INSTRUCTIONS
 
 HALT will finish running
+
 PRINT,r will print the LSB of register r as an ascii character on stdout
+
 PRINT,r C'd' will print the register r as a decimal on stdout
+
 PRINT,r C'xy' will print the two ASCII characters x and y on stdout
 
 
