@@ -31,7 +31,7 @@ Cobol and Assiris, as well as Siris control language, starting from high school.
 their functioning never had the opportunity to see a Felix in real life, much less to punch their jobs on cards
 and actually submit them for execution. For some, this created a lingering frustration.
 
-While felixes remain in operation, or at least on inventories, until the end of the eighties, their place
+While felixes remained in operation, or at least on inventories, until the end of the eighties, their place
 was overtaken in the romanian enterprises by PDP clones, mostly with RSX and RT-11, than by 8080 and Z80 clones running CP/M or ZX spectrum
 operating systems or the probably locally developed SFDX, which was inspired by RSX. Then, 8086 PC-compatible clones
 overtook the landscape. A hobbist community also developed around home-made ZX Spectrum clones, CP/M and also CP/M-68k. Few
