@@ -31,23 +31,23 @@ Cobol and Assiris, as well as Siris control language, starting from high school.
 their functioning never had the opportunity to see a Felix in real life, much less to punch their jobs on cards
 and actually submit them for execution. For some, this created a lingering frustration.
 
-While felixes remained in operation, or at least on inventories, until the end of the eighties, their place
-was overtaken in the romanian enterprises by PDP clones, mostly with RSX and RT-11, than by 8080 and Z80 clones running CP/M or ZX spectrum
-operating systems or the probably locally developed SFDX, which was inspired by RSX. Then, 8086 PC-compatible clones
+While felices remained in operation, or at least on inventories, until the end of the eighties, their place
+was overtaken in the romanian enterprises by PDP clones, mostly with RSX and RT-11, then by 8080 and Z80 clones running CP/M or ZX spectrum
+operating systems or the probably locally developed SFDX, which was inspired by RSX, but for the Z80. Later, 8086 PC-compatible clones
 overtook the landscape. A hobbist community also developed around home-made ZX Spectrum clones, CP/M and also CP/M-68k. Few
 unix installations were experimented here and there, until Linux appeared in 1992 (Romania joined back the free world in december 1989).
 
-Fabrica de Calculatoare was caught by 1989 revolution while trying to clone a VAX. It survived for another couple
-of years, than dissapeared. The whole 'pipera platform' (industrial campus) were it was found, togheter with
+Fabrica de Calculatoare was caught by the 1989 revolution while trying to clone a VAX. It survived for another couple
+of years, than dissapeared. The whole 'Pipera platform' (industrial campus) were it was found, together with
 other computing machinery factories and institutes was transformed and is today a technological campus for
 (mostly international) software companies.
 
 Of the Felixes, almost nothing remained--except the people who had been initiated in computing and their
-students and a few programming books and manual in anticariats.
+students and a few programming books and manuals in anticariats.
 
-We could not find any piece of software, in source or binary. There are Corals and Independents still
-in operation in some informal museums, but no Felix. Almost nothing to be found about the IRISes online
-either.
+We could not find any piece of software, in source or binary other than a few examples in the above mentioned
+books. There are Corals and Independents still in operation in some informal museums, but no Felices. 
+Almost nothing to be found about the IRISes online either.
 
 One book tries to provide a comprehensive and detailed overview, although
 the information does not ammount to a reference manual.
@@ -59,8 +59,7 @@ Based on this book, we try to implement a simulator, not of the Felix (in the SI
 of one single threaded Felix job that must consist of a restriction to the most commonly used instructions and of the ASSIRIS assembler, 
 together with essential control instructions and macros. The job
 is described by an Ascii file (Felix used EBCDIC) on the standard input, resulting in a printout
-on the standard output. In the first version, there will be no other peripherals.
-The input code is assembled in machine code that is probably the same with the Felix one,
+on the standard output. The input code is assembled in machine code that is probably the same with the Felix one,
 and executed through interpretation.
 
 The simulator is currently only for Linux. It is written in Ada and published under GPLv2.
@@ -73,13 +72,13 @@ only the standard libraries, it should be easy to port on other systems.
 You must install the GNU NYU Ada Translator (gnat), the Ada component of the gcc compiler.
 On debian derived Linuxes use: 
 
-apt install gnat
+    apt install gnat
 
 Then, you unpack the distribution zip or tar.gz in a directory and give the command `make'.
 
 To test a job say:
 
-./felix <hello_world.assiris
+    ./felix <hello_world.assiris
 
 Sau ./felix -h or felix anything to get an 'about' and then a 'help'.
 
@@ -115,7 +114,7 @@ The help is reproduced below:
          'DUMP'     -- `VIDAGE MEMOIRE' at that point
           MSG:'x'    -- display the message at that point
 
-    . CONF opt{,opt}* -- currently is ignored.
+    . CONF opt{,opt}* -- currently is ignored, it will provide for configuration of the system
 
     The following cards can only appear in a specifc sequence.
     The sequence is: JOB, COMPILE, LINK, RUN, EOJ; then, you may repeat.
