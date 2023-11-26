@@ -1,7 +1,14 @@
 # FELIX-ASSIRIS
 # Approximate emulator of Felix-C-256 computer jobs with an Assiris assembler.
 
-## The Felix-C-256
+The official page of the felix-assiris emulator is at: http://dan.corlan.net/software/emulators/felix-assiris/
+
+There is also a zenodo record at: https://zenodo.org/records/10117525
+
+This (github page) will no longer be maintained, please follow the above links, primarily the official page,
+for the latest developments.
+
+## History of the Felix-C-256
 
 The Felix-C-256 computer was a mainframe computer produced in Romania in the 1970ies (https://ro.wikipedia.org/wiki/Felix_C).
 It was more or less a copy of the IRIS-50/IRIS-80 computers produced in France by CII. It was produced by the 'Fabrica
