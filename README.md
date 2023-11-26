@@ -14,7 +14,7 @@ system (CP-V) in binary form that works like the original.
 
 However, the IRISes and thus the Felixes, are not binary compatible. The single instruction format has
 the same field, but not in the same order. In the Sigmas the order is: I,F,B,Q,X,D. In the IRISes and Felix
-it is I,B,Q,F,X,D. Credits for this incredible innovation must probably be awarded to the CII engineers.
+it is I,B,Q,F,X,D.
 
 The opcodes F are also different. Generally the opcodes perform the same functions, but the usual mnemonics
 are different as are the codes that correspond to the same actual instruction.
