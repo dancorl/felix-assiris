@@ -5,6 +5,8 @@ The official page of the felix-assiris emulator is at: http://dan.corlan.net/sof
 
 There is also a zenodo record at: https://zenodo.org/records/10117525
 
+And a sourceforge repository: https://sourceforge.net/projects/felix-assiris/
+
 This (github page) will no longer be maintained, please follow the above links, primarily the official page,
 for the latest developments.
 
