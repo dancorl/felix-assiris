@@ -3,7 +3,7 @@
 
 The official page of the felix-assiris emulator is at: http://dan.corlan.net/software/emulators/felix-assiris/
 
-Release 0.2.0 uploaded above and also to zenodo at: https://zenodo.org/records/10245244
+Release 0.2.0 uploaded above and also to zenodo at: https://zenodo.org/records/10245243
 
 Check rassiris.pdf for more extensive documentation.
 
